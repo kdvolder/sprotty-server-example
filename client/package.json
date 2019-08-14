@@ -1,0 +1,30 @@
+{
+  "name": "sprotty-server-example-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "defunct-build": "tsc -p ./tsconfig.json",
+    "build": "webpack --progress --config ./webpack.config.js",
+    "run": "npx http-server .",
+    "watch": "tsc -w -p ./tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kris De Volder <kdevolder@pivotal.io>",
+  "license": "ISC",
+  "dependencies": {
+    "reflect-metadata": "^0.1.10",
+    "sprotty": "^0.6.0"
+  },
+  "devDependencies": {
+    "circular-dependency-plugin": "^2.0.0",
+    "core-js": "^2.5.1",
+    "css-loader": "^2.1.0",
+    "http-server": "^0.11.1",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^4.4.2",
+    "typescript": "^3.5.3",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8"
+  }
+}
