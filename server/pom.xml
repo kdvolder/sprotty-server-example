@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.7.RELEASE</version>
+		<version>2.1.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -25,55 +25,32 @@
 		<spring-cloud.version>Dalston.SR1</spring-cloud.version>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>webjars-locator</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>sockjs-client</artifactId>
-		    <version>0.3.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
 
-		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+			<groupId>org.eclipse.sprotty</groupId>
+			<artifactId>org.eclipse.sprotty.server</artifactId>
+			<version>0.7.0-SNAPSHOT</version>
 		</dependency>
-	</dependencies>
-	
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+    </dependencies>
+		
 	<build>
 		<plugins>
 			<plugin>
@@ -84,7 +61,7 @@
 	</build>
 	
 	<repositories>
-		<repository>
+<!-- 		<repository>
 			<id>spring-snapshots</id>
 			<name>Spring Snapshots</name>
 			<url>https://repo.spring.io/snapshot</url>
@@ -92,12 +69,20 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<repository>
+ -->		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>https://repo.spring.io/milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>sonatype-repo</id>
+			<name>Sonatype Repo</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
 			</snapshots>
 		</repository>
 	</repositories>

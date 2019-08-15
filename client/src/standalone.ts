@@ -16,12 +16,12 @@
 
 import {
     TYPES, IActionDispatcher, SModelElementSchema, SEdgeSchema, SNodeSchema, SGraphSchema, SGraphFactory,
-    ElementMove, MoveAction, LocalModelSource
+    ElementMove, MoveAction, ModelSource, LocalModelSource, WebSocketDiagramServer
 } from "sprotty";
 import createContainer from "./di.config";
 
 export default function runStandalone() {
-    const container = createContainer(false);
+    const container = createContainer(true);
 
     // Initialize gmodel
     const node0 = { id: 'node0', type: 'node:circle', position: { x: 100, y: 100 }, size: { width: 80, height: 80 } };
@@ -58,16 +58,25 @@ export default function runStandalone() {
     }
 
     // Run
-    const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
-    modelSource.setModel(graph);
+    const modelSource = container.get<ModelSource>(TYPES.ModelSource);
+    console.log('Model source: ' + modelSource);
+    if (modelSource instanceof LocalModelSource) {
+        (<LocalModelSource>modelSource).setModel(graph);
+    }
+
+    if (modelSource instanceof WebSocketDiagramServer) {
+        const ws = new WebSocket('ws://localhost:8080/websocket');
+        modelSource.clientId = 'spring-boot';
+        modelSource.listen(ws);
+    }
 
     // Button features
     document.getElementById('addNode')!.addEventListener('click', () => {
-        const newElements = addNode();
-        modelSource.addElements(newElements);
-        const graphElement = document.getElementById('graph');
-        if (graphElement !== null && typeof graphElement.focus === 'function')
-            graphElement.focus();
+        // const newElements = addNode();
+        // modelSource.addElements(newElements);
+        // const graphElement = document.getElementById('graph');
+        // if (graphElement !== null && typeof graphElement.focus === 'function')
+        //     graphElement.focus();
     });
 
     const dispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);

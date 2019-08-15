@@ -6,7 +6,7 @@
   "scripts": {
     "defunct-build": "tsc -p ./tsconfig.json",
     "build": "webpack --progress --config ./webpack.config.js",
-    "run": "npx http-server .",
+    "run": "npx http-server -c-1 .",
     "watch": "tsc -w -p ./tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,7 @@
     "sprotty": "^0.6.0"
   },
   "devDependencies": {
+    "@types/node": "^12.7.2",
     "circular-dependency-plugin": "^2.0.0",
     "core-js": "^2.5.1",
     "css-loader": "^2.1.0",
