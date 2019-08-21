@@ -13,8 +13,10 @@
   "author": "Kris De Volder <kdevolder@pivotal.io>",
   "license": "ISC",
   "dependencies": {
+    "@types/sockjs-client": "^1.1.1",
     "reflect-metadata": "^0.1.10",
-    "sprotty": "^0.6.0"
+    "sprotty": "^0.6.0",
+    "sockjs-client": "^1.3.0"
   },
   "devDependencies": {
     "@types/node": "^12.7.2",

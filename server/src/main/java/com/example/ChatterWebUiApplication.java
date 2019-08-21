@@ -1,6 +1,7 @@
 package com.example;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -72,7 +73,8 @@ public class ChatterWebUiApplication implements WebSocketConfigurer, Initializin
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(WsMessageHandler(), "/websocket")
-		.setAllowedOrigins("*");
+		.setAllowedOrigins("*")
+		.withSockJS();
 	}
 	
 	@Bean
@@ -176,13 +178,16 @@ public class ChatterWebUiApplication implements WebSocketConfigurer, Initializin
 		SModelRoot graph = new SModelRoot();
 		graph.setId("graph");
 		graph.setType("graph");
+		graph.setChildren(new ArrayList<>()); 
 		
-		SNode node0 = new SNode();
-	    node0.setId("node0");
-	    node0.setType("node:circle");
-	    node0.setPosition(new Point(100, 100));
-	    node0.setSize(new Dimension(80, 80));
-		graph.setChildren(ImmutableList.of(node0)); 
+		for (int i= 0; i < 1000; i++) {
+			SNode node = new SNode();
+		    node.setId("node11");
+		    node.setType("node:circle");
+		    node.setPosition(new Point(100 + i * 10, 100));
+		    node.setSize(new Dimension(80, 80));
+		    graph.getChildren().add(node);
+		}
 		
 //
 //	    let count = 2;

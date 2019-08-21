@@ -16,22 +16,47 @@
 
 import {
     TYPES, IActionDispatcher, SModelElementSchema, SEdgeSchema, SNodeSchema, SGraphSchema, SGraphFactory,
-    ElementMove, MoveAction, ModelSource, LocalModelSource, WebSocketDiagramServer
+    ElementMove, MoveAction, ModelSource, LocalModelSource, WebSocketDiagramServer, RequestModelAction
 } from "sprotty";
 import createContainer from "./di.config";
+import * as SockJS from "sockjs-client";
 
 export default function runStandalone() {
     const container = createContainer(true);
+    const dispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
 
     // Initialize gmodel
-    const node0 = { id: 'node0', type: 'node:circle', position: { x: 100, y: 100 }, size: { width: 80, height: 80 } };
-    const graph: SGraphSchema = { id: 'graph', type: 'graph', children: [node0] };
+    const node0 = {
+        id: 'node0', type: 'node:bean', position: {x: 100, y: 100}, size: {width: 80, height: 80},
+        layout: 'vbox',
+
+        children: [
+            {
+                id: 'node0_header',
+                type: 'compartment',
+                layout: 'hbox',
+                children: [
+                    {
+                        id: 'bean-name',
+                        type: 'node:label',
+                        text: 'SpringBootApplication'
+                    }
+                ]
+            }
+        ]
+    };
+
+    // const children_for_node = [];
+
+
+    const graph: SGraphSchema = {id: 'graph', type: 'graph', children: [node0]};
 
     let count = 2;
+
     function addNode(): SModelElementSchema[] {
         const newNode: SNodeSchema = {
             id: 'node' + count,
-            type: 'node:circle',
+            type: 'node:bean',
             position: {
                 x: Math.random() * 1024,
                 y: Math.random() * 768
@@ -50,7 +75,7 @@ export default function runStandalone() {
         return [newNode, newEdge];
     }
 
-    for (let i = 0; i < 200; ++i) {
+    for (let i = 0; i < 10; ++i) {
         const newElements = addNode();
         for (const e of newElements) {
             graph.children.splice(0, 0, e);
@@ -65,21 +90,22 @@ export default function runStandalone() {
     }
 
     if (modelSource instanceof WebSocketDiagramServer) {
-        const ws = new WebSocket('ws://localhost:8080/websocket');
+        const ws = new SockJS('http://localhost:8080/websocket');
         modelSource.clientId = 'spring-boot';
         modelSource.listen(ws);
+        ws.addEventListener('open', () => {
+            dispatcher.dispatch(new RequestModelAction());
+        });
+        ws.addEventListener('error', (event) => {
+            console.error(`WebSocket Error: ${event}`)
+        })
     }
 
     // Button features
-    document.getElementById('addNode')!.addEventListener('click', () => {
-        // const newElements = addNode();
-        // modelSource.addElements(newElements);
-        // const graphElement = document.getElementById('graph');
-        // if (graphElement !== null && typeof graphElement.focus === 'function')
-        //     graphElement.focus();
+    document.getElementById('refresh')!.addEventListener('click', () => {
+        dispatcher.dispatch(new RequestModelAction());
     });
 
-    const dispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
     const factory = container.get<SGraphFactory>(TYPES.IModelFactory);
     document.getElementById('scrambleNodes')!.addEventListener('click', function (e) {
         const nodeMoves: ElementMove[] = [];

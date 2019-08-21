@@ -12,7 +12,7 @@ module.exports = {
     ],
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, '../server/src/main/resources/static')
+        path: path.resolve(__dirname, '.')
     },
     mode: 'development',
     devtool: 'source-map',
